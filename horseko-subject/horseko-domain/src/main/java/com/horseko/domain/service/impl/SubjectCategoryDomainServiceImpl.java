@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Wayne
@@ -26,6 +27,7 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
     /**
      * 新增分类
      */
+    @Override
     public void add(SubjectCategoryBO subjectCategoryBO) {
         if (log.isInfoEnabled()) {
             log.info("SubjectCategoryController.add.bo:{}", JSON.toJSONString(subjectCategoryBO));
@@ -34,5 +36,42 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
                 .convertBoToCategory(subjectCategoryBO);
         subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         subjectCategoryService.insert(subjectCategory);
+    }
+
+    /**
+     * 更新分类
+     * @param subjectCategoryBO
+     */
+    @Override
+    public void update(SubjectCategoryBO subjectCategoryBO) {
+        if (log.isInfoEnabled()) {
+            log.info("SubjectCategoryController.update.bo:{}", JSON.toJSONString(subjectCategoryBO));
+        }
+        SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE
+                .convertBoToCategory(subjectCategoryBO);
+        subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
+        subjectCategoryService.update(subjectCategory);
+    }
+
+    /**
+     * 查询分类
+     * @param subjectCategoryBO
+     * @return
+     */
+    @Override
+    public List<SubjectCategoryBO> queryCategory(SubjectCategoryBO subjectCategoryBO) {
+        SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE.convertBoToCategory(subjectCategoryBO);
+        subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
+        List<SubjectCategory> categoryList = subjectCategoryService.queryCategory(subjectCategory);
+        List<SubjectCategoryBO> subjectCategoryBOList = SubjectCategoryConverter.INSTANCE.convertBoToCategory(categoryList);
+        if (log.isInfoEnabled()) {
+            log.info("SubjectCategoryController.queryPrimaryCategory.boList:{}",
+                    JSON.toJSONString(subjectCategoryBOList));
+        }
+        subjectCategoryBOList.forEach(bo -> {
+            Integer subjectCount = subjectCategoryService.querySubjectCount(bo.getId());
+            bo.setCount(subjectCount);
+        });
+        return subjectCategoryBOList;
     }
 }

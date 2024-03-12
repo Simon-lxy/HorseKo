@@ -12,4 +12,17 @@ public interface SubjectCategoryDomainService {
      */
     void add(SubjectCategoryBO subjectCategoryBO);
 
+    /**
+     * 更新分类
+     * @param subjectCategoryBO
+     */
+    void update(SubjectCategoryBO subjectCategoryBO);
+
+    /**
+     * 查询分类
+     * @param subjectCategoryBO
+     * @return
+     */
+    List<SubjectCategoryBO> queryCategory(SubjectCategoryBO subjectCategoryBO);
+
 }

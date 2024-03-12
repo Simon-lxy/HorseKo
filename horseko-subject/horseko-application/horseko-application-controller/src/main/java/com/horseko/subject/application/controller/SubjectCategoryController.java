@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 题目分类(SubjectCategory)表控制层
@@ -28,9 +29,6 @@ public class SubjectCategoryController {
      */
     @Resource
     private SubjectCategoryDomainService subjectCategoryDomainService;
-
-
-
 
     /**
      * 新增分类
@@ -56,6 +54,47 @@ public class SubjectCategoryController {
         }
     }
 
+    /**
+     * 更新分类
+     *
+     * @param subjectCategoryDTO 实体
+     * @return
+     */
+    @PostMapping("/update")
+    public Result<Boolean> update(@RequestBody SubjectCategoryDTO subjectCategoryDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectCategoryController.update.dto:{}", JSON.toJSONString(subjectCategoryDTO));
+            }
+            SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter.INSTANCE.convertDtoToCategoryBO(subjectCategoryDTO);
+            subjectCategoryDomainService.update(subjectCategoryBO);
+            return Result.ok(true);
+        } catch (Exception e) {
+            log.error("SubjectCategoryController.update.error:{}", e.getMessage(), e);
+            return Result.fail("更新分类失败");
+        }
+    }
+
+
+    /**
+     * 查询分类
+     *
+     * @param subjectCategoryDTO 实体
+     * @return
+     */
+    @GetMapping("/queryPrimaryCategory")
+    public Result<List<SubjectCategoryBO>> queryPrimaryCategory(@RequestBody SubjectCategoryDTO subjectCategoryDTO) {
+        try {
+            SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter.INSTANCE.convertDtoToCategoryBO(subjectCategoryDTO);
+            List<SubjectCategoryBO> subjectCategoryBOList = subjectCategoryDomainService.queryCategory(subjectCategoryBO);
+            List<SubjectCategoryDTO> subjectCategoryDTOList = SubjectCategoryDTOConverter.INSTANCE.
+                    convertBoToCategoryDTOList(subjectCategoryBOList);
+            return Result.ok(subjectCategoryDTOList);
+        } catch (Exception e) {
+            log.error("SubjectCategoryController.queryPrimaryCategory.error:{}", e.getMessage(), e);
+            return Result.fail("查询失败");
+        }
+    }
 
 }
 
