@@ -16,7 +16,7 @@ public interface SubjectCategoryDomainService {
      * 更新分类
      * @param subjectCategoryBO
      */
-    void update(SubjectCategoryBO subjectCategoryBO);
+    Boolean update(SubjectCategoryBO subjectCategoryBO);
 
     /**
      * 查询分类
@@ -25,4 +25,9 @@ public interface SubjectCategoryDomainService {
      */
     List<SubjectCategoryBO> queryCategory(SubjectCategoryBO subjectCategoryBO);
 
+    /**
+     * 删除分类
+     * @param subjectCategoryBO
+     */
+    Boolean delete(SubjectCategoryBO subjectCategoryBO);
 }

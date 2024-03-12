@@ -43,14 +43,11 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
      * @param subjectCategoryBO
      */
     @Override
-    public void update(SubjectCategoryBO subjectCategoryBO) {
-        if (log.isInfoEnabled()) {
-            log.info("SubjectCategoryController.update.bo:{}", JSON.toJSONString(subjectCategoryBO));
-        }
+    public Boolean update(SubjectCategoryBO subjectCategoryBO) {
         SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE
                 .convertBoToCategory(subjectCategoryBO);
-        subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
-        subjectCategoryService.update(subjectCategory);
+        int count = subjectCategoryService.update(subjectCategory);
+        return count > 0;
     }
 
     /**
@@ -73,5 +70,17 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
             bo.setCount(subjectCount);
         });
         return subjectCategoryBOList;
+    }
+
+    /**
+     * 删除分类
+     * @param subjectCategoryBO
+     */
+    @Override
+    public Boolean delete(SubjectCategoryBO subjectCategoryBO) {
+        SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE.convertBoToCategory(subjectCategoryBO);
+        subjectCategory.setIsDeleted(IsDeletedFlagEnum.DELETED.getCode());
+        int count = subjectCategoryService.update(subjectCategory);
+        return count > 0;
     }
 }

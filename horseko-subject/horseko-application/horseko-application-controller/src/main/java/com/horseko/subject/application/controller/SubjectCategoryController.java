@@ -2,8 +2,10 @@ package com.horseko.subject.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
+import com.horseko.domain.convert.SubjectCategoryConverter;
 import com.horseko.domain.entity.SubjectCategoryBO;
 import com.horseko.domain.service.SubjectCategoryDomainService;
+import com.horseko.infra.basic.entity.SubjectCategory;
 import com.horseko.subject.application.convert.SubjectCategoryDTOConverter;
 import com.horseko.subject.application.dto.SubjectCategoryDTO;
 import com.horseko.subject.common.entity.Result;
@@ -67,8 +69,8 @@ public class SubjectCategoryController {
                 log.info("SubjectCategoryController.update.dto:{}", JSON.toJSONString(subjectCategoryDTO));
             }
             SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter.INSTANCE.convertDtoToCategoryBO(subjectCategoryDTO);
-            subjectCategoryDomainService.update(subjectCategoryBO);
-            return Result.ok(true);
+            Boolean result = subjectCategoryDomainService.update(subjectCategoryBO);
+            return Result.ok(result);
         } catch (Exception e) {
             log.error("SubjectCategoryController.update.error:{}", e.getMessage(), e);
             return Result.fail("更新分类失败");
@@ -94,6 +96,54 @@ public class SubjectCategoryController {
             log.error("SubjectCategoryController.queryPrimaryCategory.error:{}", e.getMessage(), e);
             return Result.fail("查询失败");
         }
+    }
+
+    /**
+     * 查询大类下分类（根据分类id差二级分类）
+     *
+     * @param subjectCategoryDTO 实体
+     * @return
+     */
+    @GetMapping("/queryCategoryByPrimary")
+    public Result<List<SubjectCategoryBO>> queryCategoryByPrimary(@RequestBody SubjectCategoryDTO subjectCategoryDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectCategoryController.queryCategoryByPrimary.dto:{}"
+                        , JSON.toJSONString(subjectCategoryDTO));
+            }
+            Preconditions.checkNotNull(subjectCategoryDTO.getParentId(), "父级id不能为空");
+            SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter.INSTANCE.convertDtoToCategoryBO(subjectCategoryDTO);
+            List<SubjectCategoryBO> subjectCategoryBOList = subjectCategoryDomainService.queryCategory(subjectCategoryBO);
+            List<SubjectCategoryDTO> subjectCategoryDTOList = SubjectCategoryDTOConverter.INSTANCE.
+                    convertBoToCategoryDTOList(subjectCategoryBOList);
+            return Result.ok(subjectCategoryDTOList);
+        } catch (Exception e) {
+            log.error("SubjectCategoryController.queryPrimaryCategory.error:{}", e.getMessage(), e);
+            return Result.fail("查询失败");
+        }
+    }
+
+    /**
+     * 删除分类
+     * @param subjectCategoryDTO
+     * @return
+     */
+    @PostMapping("/delete")
+    public Result<Boolean> delete(@RequestBody SubjectCategoryDTO subjectCategoryDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectCategoryController.delete.dto:{}", JSON.toJSONString(subjectCategoryDTO));
+            }
+            Preconditions.checkNotNull(subjectCategoryDTO.getId(), "分类id不能为空");
+            SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter
+                    .INSTANCE.convertDtoToCategoryBO(subjectCategoryDTO);
+            Boolean result = subjectCategoryDomainService.delete(subjectCategoryBO);
+            return Result.ok(result);
+        } catch (Exception e) {
+            log.error("SubjectCategoryController.delete.error:{}", e.getMessage(), e);
+            return Result.fail("删除失败");
+        }
+
     }
 
 }
