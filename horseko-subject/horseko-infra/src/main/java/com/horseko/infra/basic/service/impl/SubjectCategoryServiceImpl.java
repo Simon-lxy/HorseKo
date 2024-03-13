@@ -40,13 +40,8 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
      * @return 实例对象
      */
     @Override
-    public SubjectCategory insert(SubjectCategory subjectCategory) {
-        if(log.isInfoEnabled()){
-            log.info("SubjectCategoryController.add.subjectCategory:{}"
-                    , JSON.toJSONString(subjectCategory));
-        }
-        this.subjectCategoryDao.insert(subjectCategory);
-        return subjectCategory;
+    public int insert(SubjectCategory subjectCategory) {
+        return this.subjectCategoryDao.insert(subjectCategory);
     }
 
     /**

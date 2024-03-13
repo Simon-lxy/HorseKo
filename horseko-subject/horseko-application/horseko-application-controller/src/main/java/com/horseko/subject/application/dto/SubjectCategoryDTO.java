@@ -3,7 +3,6 @@ package com.horseko.subject.application.dto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 题目分类

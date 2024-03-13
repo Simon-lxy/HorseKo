@@ -10,7 +10,7 @@ public interface SubjectCategoryDomainService {
     /**
      * 新增分类
      */
-    void add(SubjectCategoryBO subjectCategoryBO);
+    Boolean add(SubjectCategoryBO subjectCategoryBO);
 
     /**
      * 更新分类

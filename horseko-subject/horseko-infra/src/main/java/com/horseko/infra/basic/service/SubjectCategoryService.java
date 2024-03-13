@@ -26,7 +26,7 @@ public interface SubjectCategoryService {
      * @param subjectCategory 实例对象
      * @return 实例对象
      */
-    SubjectCategory insert(SubjectCategory subjectCategory);
+    int insert(SubjectCategory subjectCategory);
 
     /**
      * 修改数据

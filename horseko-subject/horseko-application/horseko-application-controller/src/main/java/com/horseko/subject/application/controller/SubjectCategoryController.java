@@ -2,10 +2,8 @@ package com.horseko.subject.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
-import com.horseko.domain.convert.SubjectCategoryConverter;
 import com.horseko.domain.entity.SubjectCategoryBO;
 import com.horseko.domain.service.SubjectCategoryDomainService;
-import com.horseko.infra.basic.entity.SubjectCategory;
 import com.horseko.subject.application.convert.SubjectCategoryDTOConverter;
 import com.horseko.subject.application.dto.SubjectCategoryDTO;
 import com.horseko.subject.common.entity.Result;
@@ -48,8 +46,8 @@ public class SubjectCategoryController {
             Preconditions.checkArgument(!StringUtils.isBlank(subjectCategoryDTO.getCategoryName()),"分类名称不能为空");
             Preconditions.checkNotNull(subjectCategoryDTO.getParentId(),"父级分类id不能为空");
             SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter.INSTANCE.convertDtoToCategoryBO(subjectCategoryDTO);
-            subjectCategoryDomainService.add(subjectCategoryBO);
-            return Result.ok(true);
+            Boolean result = subjectCategoryDomainService.add(subjectCategoryBO);
+            return Result.ok(result);
         } catch (Exception e) {
             log.error("SubjectCategoryController.add.error:{}", e.getMessage(), e);
             return Result.fail("新增分类失败");

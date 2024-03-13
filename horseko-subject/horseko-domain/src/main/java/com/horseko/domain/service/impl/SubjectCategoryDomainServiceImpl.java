@@ -28,14 +28,15 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
      * 新增分类
      */
     @Override
-    public void add(SubjectCategoryBO subjectCategoryBO) {
+    public Boolean add(SubjectCategoryBO subjectCategoryBO) {
         if (log.isInfoEnabled()) {
             log.info("SubjectCategoryController.add.bo:{}", JSON.toJSONString(subjectCategoryBO));
         }
         SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE
                 .convertBoToCategory(subjectCategoryBO);
         subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
-        subjectCategoryService.insert(subjectCategory);
+        int count = subjectCategoryService.insert(subjectCategory);
+        return count > 0;
     }
 
     /**
