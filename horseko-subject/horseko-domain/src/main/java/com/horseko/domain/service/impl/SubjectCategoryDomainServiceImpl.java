@@ -61,7 +61,7 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
         SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE.convertBoToCategory(subjectCategoryBO);
         subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         List<SubjectCategory> categoryList = subjectCategoryService.queryCategory(subjectCategory);
-        List<SubjectCategoryBO> subjectCategoryBOList = SubjectCategoryConverter.INSTANCE.convertBoToCategory(categoryList);
+        List<SubjectCategoryBO> subjectCategoryBOList = SubjectCategoryConverter.INSTANCE.convertCategoryListToCategoryBOList(categoryList);
         if (log.isInfoEnabled()) {
             log.info("SubjectCategoryController.queryPrimaryCategory.boList:{}",
                     JSON.toJSONString(subjectCategoryBOList));

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 题目标签表(SubjectLabel)表服务实现类
@@ -29,12 +30,18 @@ public class SubjectLabelDomainServiceImpl implements SubjectLabelDomainService 
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param subjectLabelBO
      * @return 实例对象
      */
     @Override
-    public SubjectLabel queryById(Long id) {
-        return this.subjectLabelService.queryById(id);
+    public List<SubjectLabelBO> queryLabelByCategoryId(SubjectLabelBO subjectLabelBO) {
+        if (log.isInfoEnabled()) {
+            log.info("SubjectLabelDomainServiceImpl.queryLabelByCategoryId.bo:{}", JSON.toJSONString(subjectLabelBO));
+        }
+        SubjectLabel subjectLabel = SubjectLabelConverter.INSTANCE.convertBoTOLabel(subjectLabelBO);
+        List<SubjectLabel> subjectLabels = subjectLabelService.queryLabelByCategoryId(subjectLabel);
+        List<SubjectLabelBO> subjectLabelBOS = SubjectLabelConverter.INSTANCE.convertLabelListTOLabelBOList(subjectLabels);
+        return subjectLabelBOS;
     }
 
     /**
@@ -46,7 +53,7 @@ public class SubjectLabelDomainServiceImpl implements SubjectLabelDomainService 
     @Override
     public Boolean add(SubjectLabelBO subjectLabelBO) {
         if (log.isInfoEnabled()) {
-            log.info("SubjectLabelDomainServiceImpl.update.bo:{}", JSON.toJSONString(subjectLabelBO));
+            log.info("SubjectLabelDomainServiceImpl.add.bo:{}", JSON.toJSONString(subjectLabelBO));
         }
         SubjectLabel subjectLabel = SubjectLabelConverter.INSTANCE.convertBoTOLabel(subjectLabelBO);
         subjectLabel.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
@@ -57,23 +64,34 @@ public class SubjectLabelDomainServiceImpl implements SubjectLabelDomainService 
     /**
      * 修改数据
      *
-     * @param subjectLabel 实例对象
+     * @param subjectLabelBO 实例对象
      * @return 实例对象
      */
     @Override
-    public SubjectLabel update(SubjectLabel subjectLabel) {
-        this.subjectLabelService.update(subjectLabel);
-        return this.queryById(subjectLabel.getId());
+    public Boolean update(SubjectLabelBO subjectLabelBO) {
+        if (log.isInfoEnabled()) {
+            log.info("SubjectLabelDomainServiceImpl.update.bo:{}", JSON.toJSONString(subjectLabelBO));
+        }
+        SubjectLabel subjectLabel = SubjectLabelConverter.INSTANCE.convertBoTOLabel(subjectLabelBO);
+        int count = this.subjectLabelService.update(subjectLabel);
+        return count > 0;
     }
 
     /**
-     * 通过主键删除数据
+     * 删除数据
      *
-     * @param id 主键
-     * @return 是否成功
+     * @param subjectLabelBO 实例对象
+     * @return
      */
-//    @Override
-//    public boolean deleteById(Long id) {
-//        return this.subjectLabelService.deleteById(id) > 0;
-//    }
+    @Override
+    public Boolean delete(SubjectLabelBO subjectLabelBO) {
+        if (log.isInfoEnabled()) {
+            log.info("SubjectLabelDomainServiceImpl.delete.bo:{}", JSON.toJSONString(subjectLabelBO));
+        }
+        SubjectLabel subjectLabel = SubjectLabelConverter.INSTANCE.convertBoTOLabel(subjectLabelBO);
+        subjectLabel.setIsDeleted(IsDeletedFlagEnum.DELETED.getCode());
+        int count = subjectLabelService.update(subjectLabel);
+        return count > 0;
+    }
+
 }

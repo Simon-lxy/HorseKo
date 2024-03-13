@@ -1,7 +1,10 @@
 package com.horseko.domain.service;
 
+import com.horseko.domain.entity.SubjectCategoryBO;
 import com.horseko.domain.entity.SubjectLabelBO;
 import com.horseko.infra.basic.entity.SubjectLabel;
+
+import java.util.List;
 
 /**
  * 题目标签表(SubjectLabel)表服务接口
@@ -12,12 +15,12 @@ import com.horseko.infra.basic.entity.SubjectLabel;
 public interface SubjectLabelDomainService {
 
     /**
-     * 通过ID查询单条数据
+     * 通过分类id查询标签
      *
-     * @param id 主键
+     * @param subjectLabelBO 主键
      * @return 实例对象
      */
-    SubjectLabel queryById(Long id);
+    List<SubjectLabelBO> queryLabelByCategoryId(SubjectLabelBO subjectLabelBO);
 
     /**
      * 新增数据
@@ -31,17 +34,17 @@ public interface SubjectLabelDomainService {
     /**
      * 修改数据
      *
-     * @param subjectLabel 实例对象
+     * @param subjectLabelBO 实例对象
      * @return 实例对象
      */
-    SubjectLabel update(SubjectLabel subjectLabel);
+    Boolean update(SubjectLabelBO subjectLabelBO);
 
     /**
      * 通过主键删除数据
      *
-     * @param id 主键
+     * @param subjectLabelBO
      * @return 是否成功
      */
-//    boolean deleteById(Long id);
+    Boolean delete(SubjectLabelBO subjectLabelBO);
 
 }

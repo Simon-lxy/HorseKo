@@ -2,6 +2,8 @@ package com.horseko.subject.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
+import com.horseko.domain.convert.SubjectLabelConverter;
+import com.horseko.domain.entity.SubjectCategoryBO;
 import com.horseko.domain.entity.SubjectLabelBO;
 import com.horseko.domain.service.SubjectLabelDomainService;
 import com.horseko.infra.basic.entity.SubjectLabel;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 题目标签表(SubjectLabel)表控制层
@@ -34,14 +37,25 @@ public class SubjectLabelController {
     private SubjectLabelDomainService subjectLabelDomainService;
 
     /**
-     * 通过主键查询单条数据
+     * 通过分类ID查询标签
      *
-     * @param id 主键
-     * @return 单条数据
+     * @param subjectLabelDTO
+     * @return
      */
-    @GetMapping("{id}")
-    public ResponseEntity<SubjectLabel> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.subjectLabelDomainService.queryById(id));
+    @GetMapping("/queryLabelByCategoryId")
+    public Result<List<SubjectLabelBO>> queryLabelByCategoryId(@RequestBody SubjectLabelDTO subjectLabelDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectLabelController.queryLabelByCategoryId.dto:{}", JSON.toJSONString(subjectLabelDTO));
+            }
+            Preconditions.checkNotNull(subjectLabelDTO.getCategoryId(), "分类ID不能为空");
+            SubjectLabelBO subjectLabelBO = SubjectLabelDTOConverter.INSTANCE.convertDtoToLabelBO(subjectLabelDTO);
+            List<SubjectLabelBO> subjectLabelBOList = subjectLabelDomainService.queryLabelByCategoryId(subjectLabelBO);
+            return Result.ok(subjectLabelBOList);
+        } catch (Exception e) {
+            log.error("SubjectLabelController.queryLabelByCategoryId.dto:{}", e.getMessage(), e);
+            return Result.fail("查询标签失败");
+        }
     }
 
     /**
@@ -68,15 +82,41 @@ public class SubjectLabelController {
     }
 
     /**
-     * 编辑数据
+     * 修改数据
      *
-     * @param subjectLabel 实体
-     * @return 编辑结果
+     * @param subjectLabelDTO 实体
+     * @return 修改结果
      */
-    @PutMapping
-    public ResponseEntity<SubjectLabel> edit(SubjectLabel subjectLabel) {
-        return ResponseEntity.ok(this.subjectLabelDomainService.update(subjectLabel));
+    @PostMapping("/update")
+    public Result<Boolean> update(@RequestBody SubjectLabelDTO subjectLabelDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectLabelController.update.dto:{}", JSON.toJSONString(subjectLabelDTO));
+            }
+            Preconditions.checkNotNull(subjectLabelDTO.getId(), "标签ID不能为空");
+            SubjectLabelBO subjectLabelBO = SubjectLabelDTOConverter.INSTANCE.convertDtoToLabelBO(subjectLabelDTO);
+            Boolean result = subjectLabelDomainService.update(subjectLabelBO);
+            return Result.ok(result);
+        } catch (Exception e) {
+            log.error("SubjectLabelController.update.dto:{}", e.getMessage(), e);
+            return Result.fail("修改标签失败");
+        }
     }
 
+    @PostMapping("/delete")
+    public Result<Boolean> delete(@RequestBody SubjectLabelDTO subjectLabelDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectLabelController.delete.dto:{}", JSON.toJSONString(subjectLabelDTO));
+            }
+            Preconditions.checkNotNull(subjectLabelDTO.getId(), "标签ID不能为空");
+            SubjectLabelBO subjectLabelBO = SubjectLabelDTOConverter.INSTANCE.convertDtoToLabelBO(subjectLabelDTO);
+            Boolean result = subjectLabelDomainService.delete(subjectLabelBO);
+            return Result.ok(result);
+        } catch (Exception e) {
+            log.error("SubjectLabelController.update.dto:{}", e.getMessage(), e);
+            return Result.fail("修改标签失败");
+        }
+    }
 }
 

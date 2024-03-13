@@ -2,6 +2,7 @@ package com.horseko.infra.basic.mapper;
 
 import com.horseko.infra.basic.entity.SubjectLabel;
 
+import java.util.List;
 
 
 /**
@@ -18,7 +19,7 @@ public interface SubjectLabelDao {
      * @param id 主键
      * @return 实例对象
      */
-    SubjectLabel queryById(Long id);
+    List<SubjectLabel> queryLabelByCategoryId(SubjectLabel subjectLabel);
 
 
     /**

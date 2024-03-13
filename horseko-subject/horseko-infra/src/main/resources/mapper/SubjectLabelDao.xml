@@ -15,11 +15,11 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="SubjectLabelMap">
+    <select id="queryLabelByCategoryId" resultMap="SubjectLabelMap">
         select
           id, label_name, sort_num, category_id, created_by, created_time, update_by, update_time, is_deleted
         from subject_label
-        where id = #{id}
+        where category_id = #{categoryId}
     </select>
 
     <!--查询指定行数据-->

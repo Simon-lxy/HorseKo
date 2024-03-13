@@ -2,6 +2,8 @@ package com.horseko.infra.basic.service;
 
 import com.horseko.infra.basic.entity.SubjectLabel;
 
+import java.util.List;
+
 /**
  * 题目标签表(SubjectLabel)表服务接口
  *
@@ -13,10 +15,10 @@ public interface SubjectLabelService {
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param subjectLabel 主键
      * @return 实例对象
      */
-    SubjectLabel queryById(Long id);
+    List<SubjectLabel> queryLabelByCategoryId(SubjectLabel subjectLabel);
 
     /**
      * 新增数据
@@ -33,7 +35,7 @@ public interface SubjectLabelService {
      * @param subjectLabel 实例对象
      * @return 实例对象
      */
-    SubjectLabel update(SubjectLabel subjectLabel);
+    int update(SubjectLabel subjectLabel);
 
     /**
      * 通过主键删除数据

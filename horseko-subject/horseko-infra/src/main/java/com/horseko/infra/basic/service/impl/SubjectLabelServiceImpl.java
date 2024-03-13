@@ -6,6 +6,7 @@ import com.horseko.infra.basic.service.SubjectLabelService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 题目标签表(SubjectLabel)表服务实现类
@@ -21,12 +22,12 @@ public class SubjectLabelServiceImpl implements SubjectLabelService {
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param subjectLabel 主键
      * @return 实例对象
      */
     @Override
-    public SubjectLabel queryById(Long id) {
-        return this.subjectLabelDao.queryById(id);
+    public List<SubjectLabel> queryLabelByCategoryId(SubjectLabel subjectLabel) {
+        return this.subjectLabelDao.queryLabelByCategoryId(subjectLabel);
     }
 
     /**
@@ -47,9 +48,9 @@ public class SubjectLabelServiceImpl implements SubjectLabelService {
      * @return 实例对象
      */
     @Override
-    public SubjectLabel update(SubjectLabel subjectLabel) {
-        this.subjectLabelDao.update(subjectLabel);
-        return this.queryById(subjectLabel.getId());
+    public int update(SubjectLabel subjectLabel) {
+        int count = this.subjectLabelDao.update(subjectLabel);
+        return count;
     }
 
     /**
