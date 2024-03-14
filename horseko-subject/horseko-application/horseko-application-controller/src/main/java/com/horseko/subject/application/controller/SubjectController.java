@@ -54,7 +54,7 @@ public class SubjectController {
      * @param subjectInfoDTO 实体
      * @return 新增结果
      */
-    @PostMapping
+    @PostMapping("/add")
     public Result<Boolean> add(@RequestBody SubjectInfoDTO subjectInfoDTO) {
         try {
             if (log.isInfoEnabled()) {

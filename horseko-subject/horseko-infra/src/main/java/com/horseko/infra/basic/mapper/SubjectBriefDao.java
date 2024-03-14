@@ -2,7 +2,8 @@ package com.horseko.infra.basic.mapper;
 
 import com.horseko.infra.basic.entity.SubjectBrief;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.domain.Pageable;
+
+import java.awt.print.Pageable;
 import java.util.List;
 
 /**
@@ -20,15 +21,6 @@ public interface SubjectBriefDao {
      * @return 实例对象
      */
     SubjectBrief queryById(Long id);
-
-    /**
-     * 查询指定行数据
-     *
-     * @param subjectBrief 查询条件
-     * @param pageable         分页对象
-     * @return 对象列表
-     */
-    List<SubjectBrief> queryAllByLimit(SubjectBrief subjectBrief, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

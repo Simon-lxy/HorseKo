@@ -1,6 +1,6 @@
 package com.horseko.domain.handler.subject;
 
-import com.horseko.domain.entity.SubjectAnswerBO;
+import com.horseko.domain.convert.RadioSubjectConverter;
 import com.horseko.domain.entity.SubjectInfoBO;
 import com.horseko.infra.basic.entity.SubjectRadio;
 import com.horseko.infra.basic.service.SubjectRadioService;
@@ -34,7 +34,7 @@ public class RadioTypeHandler implements SubjectTypeHandler {
         //单选题目的插入
         List<SubjectRadio> subjectRadioList = new LinkedList<>();
         subjectInfoBO.getOptionList().forEach(option -> {
-            SubjectRadio subjectRadio = RadioSubjectConverter.INSTANCE.convertBoToEntity(option);
+            SubjectRadio subjectRadio = RadioSubjectConverter.INSTANCE.convertBoTOEntity(option);
             subjectRadio.setSubjectId(subjectInfoBO.getId());
             subjectRadio.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
             subjectRadioList.add(subjectRadio);
