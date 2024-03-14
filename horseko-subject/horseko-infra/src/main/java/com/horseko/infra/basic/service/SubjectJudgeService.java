@@ -3,6 +3,8 @@ package com.horseko.infra.basic.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.horseko.infra.basic.entity.SubjectJudge;
 
+import java.util.List;
+
 /**
  * 判断题(SubjectJudge)表服务接口
  *
@@ -42,5 +44,4 @@ public interface SubjectJudgeService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
-
 }

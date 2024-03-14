@@ -7,9 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface RadioSubjectConverter {
+public interface MultipleSubjectConverter {
 
-    RadioSubjectConverter INSTANCE = Mappers.getMapper(RadioSubjectConverter.class);
+    MultipleSubjectConverter INSTANCE = Mappers.getMapper(MultipleSubjectConverter.class);
 
-    SubjectRadio convertBoTOEntity(SubjectAnswerBO subjectAnswerBO);
+    SubjectMultiple convertBoTOEntity(SubjectAnswerBO subjectAnswerBO);
 }

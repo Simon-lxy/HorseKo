@@ -7,6 +7,7 @@ import com.horseko.infra.basic.service.SubjectBriefService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 简答题(SubjectBrief)表服务实现类
@@ -63,5 +64,14 @@ public class SubjectBriefServiceImpl implements SubjectBriefService {
     @Override
     public boolean deleteById(Long id) {
         return this.subjectBriefDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 批量插入
+     * @param subjectBriefList
+     */
+    @Override
+    public void batchInsert(List<SubjectBrief> subjectBriefList) {
+        this.subjectBriefDao.insertBatch(subjectBriefList);
     }
 }

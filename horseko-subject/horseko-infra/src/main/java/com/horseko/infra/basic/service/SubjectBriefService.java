@@ -3,6 +3,8 @@ package com.horseko.infra.basic.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.horseko.infra.basic.entity.SubjectBrief;
 
+import java.util.List;
+
 /**
  * 简答题(SubjectBrief)表服务接口
  *
@@ -42,5 +44,4 @@ public interface SubjectBriefService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
-
 }
