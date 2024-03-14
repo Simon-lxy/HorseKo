@@ -8,10 +8,13 @@ import com.horseko.domain.handler.subject.SubjectTypeHandlerFactory;
 import com.horseko.domain.service.SubjectInfoDomainService;
 import com.horseko.infra.basic.entity.SubjectCategory;
 import com.horseko.infra.basic.entity.SubjectInfo;
+import com.horseko.infra.basic.entity.SubjectLabel;
 import com.horseko.infra.basic.entity.SubjectMapping;
 import com.horseko.infra.basic.mapper.SubjectInfoDao;
 import com.horseko.infra.basic.service.SubjectInfoService;
+import com.horseko.infra.basic.service.SubjectLabelService;
 import com.horseko.infra.basic.service.SubjectMappingService;
+import com.horseko.subject.common.entity.PageResult;
 import com.horseko.subject.common.enums.IsDeletedFlagEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 题目信息表(SubjectInfo)表服务实现类
@@ -37,6 +41,9 @@ public class SubjectInfoDomainServiceImpl implements SubjectInfoDomainService {
 
     @Resource
     private SubjectMappingService subjectMappingService;
+
+    @Resource
+    private SubjectLabelService subjectLabelService;
 
     /**
      * 通过ID查询单条数据
@@ -111,5 +118,34 @@ public class SubjectInfoDomainServiceImpl implements SubjectInfoDomainService {
     public boolean deleteById(Long id) {
 //        return this.subjectInfoService.deleteById(id) > 0;
         return false;
+    }
+
+    @Override
+    public PageResult<SubjectInfoBO> getSubjectPage(SubjectInfoBO subjectInfoBO) {
+        PageResult<SubjectInfoBO> pageResult = new PageResult<>();
+        pageResult.setPageNo(subjectInfoBO.getPageNo());
+        pageResult.setPageSize(subjectInfoBO.getPageSize());
+        int start = (subjectInfoBO.getPageNo() - 1) * subjectInfoBO.getPageSize();
+        SubjectInfo subjectInfo = SubjectInfoConverter.INSTANCE.convertBoToInfo(subjectInfoBO);
+        int count  = subjectInfoService
+                .countByCondition(subjectInfo, subjectInfoBO.getCategoryId(), subjectInfoBO.getLabelId());
+        if (count == 0) {
+            return pageResult;
+        }
+        List<SubjectInfo> subjectInfoList = subjectInfoService.queryPage(subjectInfo, subjectInfoBO.getCategoryId(),
+                subjectInfoBO.getLabelId(), start, subjectInfoBO.getPageSize());
+        List<SubjectInfoBO> subjectInfoBOS = SubjectInfoConverter.INSTANCE.covertListInfoToBO(subjectInfoList);
+        subjectInfoBOS.forEach(info -> {
+            SubjectMapping subjectMapping = new SubjectMapping();
+            subjectMapping.setSubjectId(info.getId());
+            List<SubjectMapping> subjectMappings = subjectMappingService.queryLabelId(subjectMapping);
+            List<Long> labelIds = subjectMappings.stream().map(SubjectMapping::getLabelId).collect(Collectors.toList());
+            List<SubjectLabel> subjectLabelList = subjectLabelService.batchQueryById(labelIds);
+            List<String> labelNames = subjectLabelList.stream().map(SubjectLabel::getLabelName).collect(Collectors.toList());
+            info.setLabelName(labelNames);
+        });
+        pageResult.setRecords(subjectInfoBOS);
+        pageResult.setTotal(count);
+        return pageResult;
     }
 }

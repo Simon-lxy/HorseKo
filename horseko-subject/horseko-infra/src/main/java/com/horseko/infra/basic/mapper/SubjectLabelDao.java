@@ -1,6 +1,7 @@
 package com.horseko.infra.basic.mapper;
 
 import com.horseko.infra.basic.entity.SubjectLabel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,5 +55,6 @@ public interface SubjectLabelDao {
      */
     int deleteById(Long id);
 
+    List<SubjectLabel> batchQueryById(@Param("list") List<Long> labelIds);
 }
 

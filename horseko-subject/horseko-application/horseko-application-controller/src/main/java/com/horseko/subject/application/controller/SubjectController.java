@@ -10,6 +10,7 @@ import com.horseko.infra.basic.service.SubjectInfoService;
 import com.horseko.subject.application.convert.SubjectAnswerConverter;
 import com.horseko.subject.application.convert.SubjectInfoConverter;
 import com.horseko.subject.application.dto.SubjectInfoDTO;
+import com.horseko.subject.common.entity.PageResult;
 import com.horseko.subject.common.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -38,14 +39,28 @@ public class SubjectController {
 
 
     /**
-     * 通过主键查询单条数据
+     * 查询题目列表
      *
-     * @param id 主键
-     * @return 单条数据
+     * @param subjectInfoDTO
+     * @return
      */
     @GetMapping("{id}")
-    public ResponseEntity<SubjectInfo> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.subjectInfoDomainService.queryById(id));
+    public Result<PageResult<SubjectInfoDTO>> getSubjectPage(@RequestBody SubjectInfoDTO subjectInfoDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectInfoController.getSubjectPage.dto:{}", JSON.toJSONString(subjectInfoDTO));
+            }
+            Preconditions.checkNotNull(subjectInfoDTO.getCategoryId(), "分类ID不能为空");
+            Preconditions.checkNotNull(subjectInfoDTO.getLabelId(), "标签ID不能为空");
+            SubjectInfoBO subjectInfoBO = SubjectInfoConverter.INSTANCE.convertDtoTOBo(subjectInfoDTO);
+            subjectInfoBO.setPageNo(subjectInfoDTO.getPageNo());
+            subjectInfoBO.setPageSize(subjectInfoDTO.getPageSize());
+            PageResult<SubjectInfoBO> subjectInfoBOPageResult = subjectInfoDomainService.getSubjectPage(subjectInfoBO);
+            return Result.ok(subjectInfoBOPageResult);
+        } catch (Exception e) {
+            log.error("SubjectCategoryController.add.error:{}", e.getMessage(), e);
+            return Result.fail("分页查询题目失败");
+        }
     }
 
     /**

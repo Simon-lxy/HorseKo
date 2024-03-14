@@ -1,5 +1,6 @@
 package com.horseko.domain.entity;
 
+import com.horseko.subject.common.entity.PageInfo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.List;
  * @since 2024-03-13 18:34:40
  */
 @Data
-public class SubjectInfoBO implements Serializable {
+public class SubjectInfoBO extends PageInfo implements Serializable {
     /**
      * 主键
      */
@@ -62,6 +63,17 @@ public class SubjectInfoBO implements Serializable {
      * 答案选项
      */
     private List<SubjectAnswerBO> optionList;
+
+    /**
+     * 标签name
+     */
+    private List<String> labelName;
+
+    private Long categoryId;
+
+    private Long labelId;
+
+    private String keyWord;
 
     /**
      * 创建人

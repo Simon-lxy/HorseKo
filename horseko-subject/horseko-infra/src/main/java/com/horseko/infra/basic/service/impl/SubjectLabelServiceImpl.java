@@ -63,4 +63,9 @@ public class SubjectLabelServiceImpl implements SubjectLabelService {
     public boolean deleteById(Long id) {
         return this.subjectLabelDao.deleteById(id) > 0;
     }
+
+    @Override
+    public List<SubjectLabel> batchQueryById(List<Long> labelIds) {
+        return this.subjectLabelDao.batchQueryById(labelIds);
+    }
 }

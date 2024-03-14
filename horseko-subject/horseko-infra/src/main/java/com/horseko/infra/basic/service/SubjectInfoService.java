@@ -2,6 +2,8 @@ package com.horseko.infra.basic.service;
 
 import com.horseko.infra.basic.entity.SubjectInfo;
 
+import java.util.List;
+
 
 /**
  * 题目信息表(SubjectInfo)表服务接口
@@ -44,4 +46,23 @@ public interface SubjectInfoService {
      */
     boolean deleteById(Long id);
 
+    /**
+     * 统计题目的数量
+     * @param subjectInfo
+     * @param categoryId
+     * @param labelId
+     * @return
+     */
+    int countByCondition(SubjectInfo subjectInfo, Long categoryId, Long labelId);
+
+    /**
+     * 查询题目列表
+     * @param subjectInfo
+     * @param categoryId
+     * @param labelId
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    List<SubjectInfo> queryPage(SubjectInfo subjectInfo, Long categoryId, Long labelId, int start, Integer pageSize);
 }

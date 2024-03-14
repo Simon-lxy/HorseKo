@@ -19,4 +19,5 @@ public interface SubjectInfoConverter {
 
     List<SubjectCategoryBO> convertCategoryListToCategoryBOList(List<SubjectCategory> categoryList);
 
+    List<SubjectInfoBO> covertListInfoToBO(List<SubjectInfo> subjectInfoList);
 }

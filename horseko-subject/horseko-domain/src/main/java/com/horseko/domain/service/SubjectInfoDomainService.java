@@ -2,6 +2,7 @@ package com.horseko.domain.service;
 
 import com.horseko.domain.entity.SubjectInfoBO;
 import com.horseko.infra.basic.entity.SubjectInfo;
+import com.horseko.subject.common.entity.PageResult;
 
 
 /**
@@ -45,4 +46,5 @@ public interface SubjectInfoDomainService {
      */
     boolean deleteById(Long id);
 
+    PageResult<SubjectInfoBO> getSubjectPage(SubjectInfoBO subjectInfoBO);
 }

@@ -65,13 +65,4 @@ public class SubjectJudgeServiceImpl implements SubjectJudgeService {
     public boolean deleteById(Long id) {
         return this.subjectJudgeDao.deleteById(id) > 0;
     }
-
-    /**
-     * 批量插入
-     * @param subjectJudgeList
-     */
-    @Override
-    public void batchInsert(List<SubjectJudge> subjectJudgeList) {
-        this.subjectJudgeDao.insertBatch(subjectJudgeList);
-    }
 }

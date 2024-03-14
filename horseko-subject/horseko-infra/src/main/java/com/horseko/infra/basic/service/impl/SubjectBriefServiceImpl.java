@@ -65,13 +65,4 @@ public class SubjectBriefServiceImpl implements SubjectBriefService {
     public boolean deleteById(Long id) {
         return this.subjectBriefDao.deleteById(id) > 0;
     }
-
-    /**
-     * 批量插入
-     * @param subjectBriefList
-     */
-    @Override
-    public void batchInsert(List<SubjectBrief> subjectBriefList) {
-        this.subjectBriefDao.insertBatch(subjectBriefList);
-    }
 }
