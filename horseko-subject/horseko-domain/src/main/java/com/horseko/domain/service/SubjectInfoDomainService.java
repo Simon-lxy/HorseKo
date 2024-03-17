@@ -46,5 +46,17 @@ public interface SubjectInfoDomainService {
      */
     boolean deleteById(Long id);
 
+    /**
+     * 查询题目列表
+     * @param subjectInfoBO
+     * @return
+     */
     PageResult<SubjectInfoBO> getSubjectPage(SubjectInfoBO subjectInfoBO);
+
+    /**
+     * 查询题目详情
+     * @param subjectInfoBO
+     * @return
+     */
+    SubjectInfoBO querySubjectInfo(SubjectInfoBO subjectInfoBO);
 }

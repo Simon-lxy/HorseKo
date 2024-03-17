@@ -26,10 +26,9 @@ public interface SubjectJudgeDao {
      * 查询指定行数据
      *
      * @param subjectJudge 查询条件
-     * @param pageable         分页对象
      * @return 对象列表
      */
-    List<SubjectJudge> queryAllByLimit(SubjectJudge subjectJudge, @Param("pageable") Pageable pageable);
+    List<SubjectJudge> queryAllByLimit(SubjectJudge subjectJudge);
 
     /**
      * 统计总行数

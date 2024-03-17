@@ -4,6 +4,7 @@ import com.horseko.domain.convert.JudgeSubjectConverter;
 import com.horseko.domain.convert.RadioSubjectConverter;
 import com.horseko.domain.entity.SubjectAnswerBO;
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.infra.basic.entity.SubjectJudge;
 import com.horseko.infra.basic.entity.SubjectRadio;
 import com.horseko.infra.basic.service.SubjectJudgeService;
@@ -42,6 +43,17 @@ public class JudgeTypeHandler implements SubjectTypeHandler {
         subjectJudge.setIsCorrect(subjectAnswerBO.getIsCorrect());
         subjectJudge.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         subjectJudgeService.insert(subjectJudge);
+    }
+
+    @Override
+    public SubjectOptionBO query(int subjectId) {
+        SubjectJudge subjectJudge = new SubjectJudge();
+        subjectJudge.setSubjectId(Long.valueOf(subjectId));
+        List<SubjectJudge> result = subjectJudgeService.queryByCondition(subjectJudge);
+        List<SubjectAnswerBO> subjectAnswerBOList = JudgeSubjectConverter.INSTANCE.convertEntityToBoList(result);
+        SubjectOptionBO subjectOptionBO = new SubjectOptionBO();
+        subjectOptionBO.setOptionList(subjectAnswerBOList);
+        return subjectOptionBO;
     }
 
 }

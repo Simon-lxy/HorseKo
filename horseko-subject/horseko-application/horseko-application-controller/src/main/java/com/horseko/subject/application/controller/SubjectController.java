@@ -64,6 +64,27 @@ public class SubjectController {
     }
 
     /**
+     * 查询题目详情
+     * @param subjectInfoDTO
+     * @return
+     */
+    @GetMapping("/querySubjectInfo")
+    public Result<SubjectInfoDTO> querySubjectInfo(@RequestBody SubjectInfoDTO subjectInfoDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("SubjectInfoController.querySubjectInfo.dto:{}", JSON.toJSONString(subjectInfoDTO));
+            }
+            Preconditions.checkNotNull(subjectInfoDTO.getId(), "题目id不能为空");
+            SubjectInfoBO subjectInfoBO = SubjectInfoConverter.INSTANCE.convertDtoTOBo(subjectInfoDTO);
+            SubjectInfoBO boResult = subjectInfoDomainService.querySubjectInfo(subjectInfoBO);
+            SubjectInfoDTO dtoResult = SubjectInfoConverter.INSTANCE.convertBoToDto(boResult);
+            return Result.ok(dtoResult);
+        } catch (Exception e) {
+            log.error("SubjectInfoController.querySubjectInfo.dto:{}", e.getMessage(), e);
+            return Result.fail("题目详情查询失败");
+        }
+    }
+    /**
      * 新增题目
      *
      * @param subjectInfoDTO 实体

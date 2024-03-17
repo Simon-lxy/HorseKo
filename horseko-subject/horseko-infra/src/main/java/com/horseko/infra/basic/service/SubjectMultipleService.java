@@ -49,4 +49,6 @@ public interface SubjectMultipleService {
      * @param subjectMultiples
      */
     void batchInsert(List<SubjectMultiple> subjectMultiples);
+
+    List<SubjectMultiple> queryByCondition(SubjectMultiple subjectMultiple);
 }

@@ -3,6 +3,7 @@ package com.horseko.domain.handler.subject;
 import com.horseko.domain.convert.BriefSubjectConverter;
 import com.horseko.domain.convert.JudgeSubjectConverter;
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.infra.basic.entity.SubjectBrief;
 import com.horseko.infra.basic.entity.SubjectJudge;
 import com.horseko.infra.basic.service.SubjectBriefService;
@@ -38,6 +39,16 @@ public class BriefTypeHandler implements SubjectTypeHandler {
         subjectBrief.setSubjectId(subjectInfoBO.getId().intValue());
         subjectBrief.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         subjectBriefService.insert(subjectBrief);
+    }
+
+    @Override
+    public SubjectOptionBO query(int subjectId) {
+        SubjectBrief subjectBrief = new SubjectBrief();
+        subjectBrief.setSubjectId(subjectId);
+        SubjectBrief result = subjectBriefService.queryByCondition(subjectBrief);
+        SubjectOptionBO subjectOptionBO = new SubjectOptionBO();
+        subjectOptionBO.setSubjectAnswer(result.getSubjectAnswer());
+        return subjectOptionBO;
     }
 
 }

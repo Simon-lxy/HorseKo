@@ -3,6 +3,7 @@ package com.horseko.domain.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.horseko.domain.convert.SubjectInfoConverter;
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.domain.handler.subject.SubjectTypeHandler;
 import com.horseko.domain.handler.subject.SubjectTypeHandlerFactory;
 import com.horseko.domain.service.SubjectInfoDomainService;
@@ -120,6 +121,11 @@ public class SubjectInfoDomainServiceImpl implements SubjectInfoDomainService {
         return false;
     }
 
+    /**
+     * 查询题目列表
+     * @param subjectInfoBO
+     * @return
+     */
     @Override
     public PageResult<SubjectInfoBO> getSubjectPage(SubjectInfoBO subjectInfoBO) {
         PageResult<SubjectInfoBO> pageResult = new PageResult<>();
@@ -147,5 +153,27 @@ public class SubjectInfoDomainServiceImpl implements SubjectInfoDomainService {
         pageResult.setRecords(subjectInfoBOS);
         pageResult.setTotal(count);
         return pageResult;
+    }
+
+    /**
+     * 查询题目详情
+     * @param subjectInfoBO
+     * @return
+     */
+    @Override
+    public SubjectInfoBO querySubjectInfo(SubjectInfoBO subjectInfoBO) {
+        SubjectInfo subjectInfo = subjectInfoService.queryById(subjectInfoBO.getId());
+        SubjectTypeHandler handler = subjectTypeHandlerFactory.getHandler(subjectInfo.getSubjectType());
+        SubjectOptionBO optionBO = handler.query(subjectInfo.getId().intValue());
+        SubjectInfoBO bo = SubjectInfoConverter.INSTANCE.convertOptionAndInfoToBo(optionBO, subjectInfo);
+        SubjectMapping subjectMapping = new SubjectMapping();
+        subjectMapping.setSubjectId(subjectInfo.getId());
+        subjectMapping.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
+        List<SubjectMapping> mappingList = subjectMappingService.queryLabelId(subjectMapping);
+        List<Long> labelIdList = mappingList.stream().map(SubjectMapping::getLabelId).collect(Collectors.toList());
+        List<SubjectLabel> labelList = subjectLabelService.batchQueryById(labelIdList);
+        List<String> labelNameList = labelList.stream().map(SubjectLabel::getLabelName).collect(Collectors.toList());
+        bo.setLabelName(labelNameList);
+        return bo;
     }
 }

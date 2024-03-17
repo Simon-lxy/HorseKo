@@ -26,10 +26,9 @@ public interface SubjectMultipleDao {
      * 查询指定行数据
      *
      * @param subjectMultiple 查询条件
-     * @param pageable         分页对象
      * @return 对象列表
      */
-    List<SubjectMultiple> queryAllByLimit(SubjectMultiple subjectMultiple, @Param("pageable") Pageable pageable);
+    List<SubjectMultiple> queryAllByLimit(SubjectMultiple subjectMultiple);
 
     /**
      * 统计总行数

@@ -1,7 +1,9 @@
 package com.horseko.domain.handler.subject;
 
 import com.horseko.domain.convert.RadioSubjectConverter;
+import com.horseko.domain.entity.SubjectAnswerBO;
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.infra.basic.entity.SubjectRadio;
 import com.horseko.infra.basic.service.SubjectRadioService;
 import com.horseko.subject.common.enums.IsDeletedFlagEnum;
@@ -40,6 +42,17 @@ public class RadioTypeHandler implements SubjectTypeHandler {
             subjectRadioList.add(subjectRadio);
         });
         subjectRadioService.batchInsert(subjectRadioList);
+    }
+
+    @Override
+    public SubjectOptionBO query(int subjectId) {
+        SubjectRadio subjectRadio = new SubjectRadio();
+        subjectRadio.setSubjectId(Long.valueOf(subjectId));
+        List<SubjectRadio> result = subjectRadioService.queryByCondition(subjectRadio);
+        List<SubjectAnswerBO> subjectAnswerBOList = RadioSubjectConverter.INSTANCE.convertEntityToBoList(result);
+        SubjectOptionBO subjectOptionBO = new SubjectOptionBO();
+        subjectOptionBO.setOptionList(subjectAnswerBOList);
+        return subjectOptionBO;
     }
 
 }

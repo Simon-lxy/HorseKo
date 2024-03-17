@@ -1,6 +1,7 @@
 package com.horseko.domain.handler.subject;
 
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.subject.common.enums.SubjectInfoTypeEnum;
 
 public interface SubjectTypeHandler {
@@ -16,4 +17,10 @@ public interface SubjectTypeHandler {
      */
     void add(SubjectInfoBO subjectInfoBO);
 
+    /**
+     * 实体题目查询
+     * @param subjectId
+     * @return
+     */
+    SubjectOptionBO query(int subjectId);
 }

@@ -3,6 +3,7 @@ package com.horseko.domain.convert;
 
 import com.horseko.domain.entity.SubjectCategoryBO;
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.infra.basic.entity.SubjectCategory;
 import com.horseko.infra.basic.entity.SubjectInfo;
 import org.mapstruct.Mapper;
@@ -20,4 +21,6 @@ public interface SubjectInfoConverter {
     List<SubjectCategoryBO> convertCategoryListToCategoryBOList(List<SubjectCategory> categoryList);
 
     List<SubjectInfoBO> covertListInfoToBO(List<SubjectInfo> subjectInfoList);
+
+    SubjectInfoBO convertOptionAndInfoToBo(SubjectOptionBO subjectOptionBO, SubjectInfo subjectInfo);
 }

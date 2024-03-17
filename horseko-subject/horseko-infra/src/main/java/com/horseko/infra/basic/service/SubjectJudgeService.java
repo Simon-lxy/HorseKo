@@ -44,4 +44,6 @@ public interface SubjectJudgeService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
+
+    List<SubjectJudge> queryByCondition(SubjectJudge subjectJudge);
 }

@@ -2,7 +2,9 @@ package com.horseko.domain.handler.subject;
 
 import com.horseko.domain.convert.MultipleSubjectConverter;
 import com.horseko.domain.convert.RadioSubjectConverter;
+import com.horseko.domain.entity.SubjectAnswerBO;
 import com.horseko.domain.entity.SubjectInfoBO;
+import com.horseko.domain.entity.SubjectOptionBO;
 import com.horseko.infra.basic.entity.SubjectMultiple;
 import com.horseko.infra.basic.entity.SubjectRadio;
 import com.horseko.infra.basic.service.SubjectMultipleService;
@@ -47,6 +49,17 @@ public class MultipleTypeHandler implements SubjectTypeHandler {
             subjectMultiples.add(subjectMultiple);
         });
         subjectMultipleService.batchInsert(subjectMultiples);
+    }
+
+    @Override
+    public SubjectOptionBO query(int subjectId) {
+        SubjectMultiple subjectMultiple = new SubjectMultiple();
+        subjectMultiple.setSubjectId(Long.valueOf(subjectId));
+        List<SubjectMultiple> result = subjectMultipleService.queryByCondition(subjectMultiple);
+        List<SubjectAnswerBO> subjectAnswerBOList = MultipleSubjectConverter.INSTANCE.convertEntityToBoList(result);
+        SubjectOptionBO subjectOptionBO = new SubjectOptionBO();
+        subjectOptionBO.setOptionList(subjectAnswerBOList);
+        return subjectOptionBO;
     }
 
 }
