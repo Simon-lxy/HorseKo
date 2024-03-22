@@ -11,8 +11,11 @@
 
     <artifactId>horseko-auth-application</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>horseko-auth-application-job</module>
+        <module>horseko-auth-application-controller</module>
+        <module>horseko-auth-application-mq</module>
     </modules>
 
     <properties>
