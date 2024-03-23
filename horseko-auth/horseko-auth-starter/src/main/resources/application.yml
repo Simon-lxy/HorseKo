@@ -27,6 +27,28 @@ spring:
           enabled: true
         config:
           enabled: true
+  # redis配置
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 1
+    # Redis服务器地址
+    host: 117.72.39.183
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: Wayne0010002...
+    # 连接超时时间
+    timeout: 2s
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
 sa-token:
   # token 名称（同时也是 cookie 名称）
   token-name: satoken
@@ -42,5 +64,6 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
+  token-prefix: yuyu
 
 #publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIF6F4FIuFbTeE7i3mYLatheSVNgHSoOtmR1oN21HhWK7FQ1PjdcnODyz0HifAEVFKBKEUYUAkAEZlRb6bzSk3UCAwEAAQ==
