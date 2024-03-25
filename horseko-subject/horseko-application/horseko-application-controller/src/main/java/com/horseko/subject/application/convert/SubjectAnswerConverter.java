@@ -1,6 +1,6 @@
 package com.horseko.subject.application.convert;
 
-import com.horseko.domain.entity.SubjectAnswerBO;
+import com.horseko.auth.domain.entity.SubjectAnswerBO;
 import com.horseko.subject.application.dto.SubjectAnswerDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

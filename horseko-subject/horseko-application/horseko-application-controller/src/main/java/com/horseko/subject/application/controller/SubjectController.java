@@ -2,11 +2,10 @@ package com.horseko.subject.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
-import com.horseko.domain.entity.SubjectAnswerBO;
-import com.horseko.domain.entity.SubjectInfoBO;
-import com.horseko.domain.service.SubjectInfoDomainService;
+import com.horseko.auth.domain.entity.SubjectAnswerBO;
+import com.horseko.auth.domain.entity.SubjectInfoBO;
+import com.horseko.auth.domain.service.SubjectInfoDomainService;
 import com.horseko.infra.basic.entity.SubjectInfo;
-import com.horseko.infra.basic.service.SubjectInfoService;
 import com.horseko.subject.application.convert.SubjectAnswerConverter;
 import com.horseko.subject.application.convert.SubjectInfoConverter;
 import com.horseko.subject.application.dto.SubjectInfoDTO;

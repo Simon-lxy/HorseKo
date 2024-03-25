@@ -1,7 +1,7 @@
 package com.horseko.subject.application.convert;
 
 
-import com.horseko.domain.entity.SubjectCategoryBO;
+import com.horseko.auth.domain.entity.SubjectCategoryBO;
 import com.horseko.subject.application.dto.SubjectCategoryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

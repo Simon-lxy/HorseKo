@@ -2,19 +2,14 @@ package com.horseko.subject.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
-import com.horseko.domain.convert.SubjectLabelConverter;
-import com.horseko.domain.entity.SubjectCategoryBO;
-import com.horseko.domain.entity.SubjectLabelBO;
-import com.horseko.domain.service.SubjectLabelDomainService;
-import com.horseko.infra.basic.entity.SubjectLabel;
-import com.horseko.infra.basic.service.SubjectLabelService;
+import com.horseko.auth.domain.entity.SubjectLabelBO;
+import com.horseko.auth.domain.service.SubjectLabelDomainService;
 
 import com.horseko.subject.application.convert.SubjectLabelDTOConverter;
 import com.horseko.subject.application.dto.SubjectLabelDTO;
 import com.horseko.subject.common.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

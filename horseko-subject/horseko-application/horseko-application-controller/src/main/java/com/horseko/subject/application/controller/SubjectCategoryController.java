@@ -2,8 +2,8 @@ package com.horseko.subject.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
-import com.horseko.domain.entity.SubjectCategoryBO;
-import com.horseko.domain.service.SubjectCategoryDomainService;
+import com.horseko.auth.domain.entity.SubjectCategoryBO;
+import com.horseko.auth.domain.service.SubjectCategoryDomainService;
 import com.horseko.subject.application.convert.SubjectCategoryDTOConverter;
 import com.horseko.subject.application.dto.SubjectCategoryDTO;
 import com.horseko.subject.common.entity.Result;
