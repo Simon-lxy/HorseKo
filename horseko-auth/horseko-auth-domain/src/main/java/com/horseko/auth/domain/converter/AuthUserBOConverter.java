@@ -14,5 +14,7 @@ public interface AuthUserBOConverter {
 
     AuthUserBOConverter INSTANCE = Mappers.getMapper(AuthUserBOConverter.class);
 
-    AuthUser convertBoTEntity(AuthUserBO authUserBO);
+    AuthUser convertBoToEntity(AuthUserBO authUserBO);
+
+    AuthUserBO convertEntityToBo(AuthUser authUser);
 }

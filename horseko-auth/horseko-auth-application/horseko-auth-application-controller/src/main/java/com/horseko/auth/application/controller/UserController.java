@@ -43,9 +43,82 @@ public class UserController {
 
     private void checkUserInfo(@RequestBody AuthUserDTO authUserDTO) {
         Preconditions.checkArgument(!StringUtils.isBlank(authUserDTO.getUserName()), "用户名不能为空");
+        Preconditions.checkArgument(!StringUtils.isBlank(authUserDTO.getEmail()), "用户邮件地址不能为空");
+        Preconditions.checkArgument(!StringUtils.isBlank(authUserDTO.getPassword()), "用户密码不能为空");
     }
 
 
+    /**
+     * 修改用户信息
+     */
+    @PostMapping("update")
+    public Result<Boolean> update(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.update.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            checkUserInfo(authUserDTO);
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            return Result.ok(authUserDomainService.update(authUserBO));
+        } catch (Exception e) {
+            log.error("UserController.update.error:{}", e.getMessage(), e);
+            return Result.fail("更新用户信息失败");
+        }
+    }
+
+    /**
+     * 删除用户信息
+     */
+    @PostMapping("delete")
+    public Result<Boolean> delete(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.delete.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            return Result.ok(authUserDomainService.delete(authUserBO));
+        } catch (Exception e) {
+            log.error("UserController.delete.error:{}", e.getMessage(), e);
+            return Result.fail("删除用户信息失败");
+        }
+    }
+
+    /**
+     * 用户启用/禁用
+     */
+    @PostMapping("changeStatus")
+    public Result<Boolean> changeStatus(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.changeStatus.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            Preconditions.checkNotNull(authUserDTO.getStatus(), "用户状态不能为空");
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            return Result.ok(authUserDomainService.changeStatus(authUserBO));
+        } catch (Exception e) {
+            log.error("UserController.delete.error:{}", e.getMessage(), e);
+            return Result.fail("用户状态修改失败");
+        }
+    }
+
+    /**
+     * 查询用户信息
+     */
+    @GetMapping("getUserInfo")
+    public Result<AuthUserDTO> getUserInfo(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.getUserInfo.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            Preconditions.checkArgument(!StringUtils.isBlank(authUserDTO.getUserName()), "用户名称不能为空");
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            AuthUserBO userBO = authUserDomainService.getUserInfo(authUserBO);
+            return Result.ok(AuthUserDTOConverter.INSTANCE.convertBOToDTO(userBO));
+        } catch (Exception e) {
+            log.error("UserController.getUserInfo.error:{}", e.getMessage(), e);
+            return Result.fail("用户状态修改失败");
+        }
+    }
 
 
     // 测试登录，浏览器访问： http://localhost:8081/user/doLogin?username=zhang&password=123456

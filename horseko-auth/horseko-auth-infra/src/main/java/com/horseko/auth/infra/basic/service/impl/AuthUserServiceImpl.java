@@ -24,4 +24,14 @@ public class AuthUserServiceImpl implements AuthUserService {
     public Integer register(AuthUser authUser) {
         return this.authUserDao.insert(authUser);
     }
+
+    @Override
+    public Integer update(AuthUser authUser) {
+        return this.authUserDao.update(authUser);
+    }
+
+    @Override
+    public AuthUser queryByUserName(AuthUser authUser) {
+        return this.authUserDao.queryAllByLimit(authUser);
+    }
 }

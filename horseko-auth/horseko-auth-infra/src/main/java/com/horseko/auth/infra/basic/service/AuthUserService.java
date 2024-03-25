@@ -13,4 +13,8 @@ public interface AuthUserService {
 
 
     Integer register(AuthUser authUser);
+
+    Integer update(AuthUser authUser);
+
+    AuthUser queryByUserName(AuthUser authUser);
 }
